@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Family Message</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: #F9FAFB;
+      color: #1F2937;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 400px;
+      width: 90%;
+      text-align: center;
+    }
+    .header {
+      margin-bottom: 2rem;
+    }
+    .card {
+      background-color: white;
+      border-radius: 1rem;
+      padding: 2rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      cursor: pointer;
+      border: 1px solid #E5E7EB;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    .card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    .card:active {
+      transform: scale(0.98);
+    }
+    .icon-container {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      background-color: rgba(79, 70, 229, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 1.25rem auto;
+    }
+    .icon {
+      font-size: 2rem;
+      color: #4F46E5;
+    }
+    .card-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+    .card-desc {
+      color: #6B7280;
+    }
+    .toast {
+      position: fixed;
+      bottom: 1rem;
+      left: 50%;
+      transform: translateX(-50%);
+      background: white;
+      padding: 1rem;
+      border-radius: 0.5rem;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      display: flex;
+      align-items: flex-start;
+      max-width: 400px;
+      width: 90%;
+      z-index: 50;
+      border: 1px solid #E5E7EB;
+      animation: slideUp 0.5s ease;
+      display: none;
+    }
+    .toast-icon {
+      background-color: rgba(245, 158, 11, 0.2);
+      padding: 0.5rem;
+      border-radius: 50%;
+      color: #F59E0B;
+      margin-right: 0.75rem;
+    }
+    .toast-message {
+      flex: 1;
+      font-size: 0.875rem;
+      font-weight: 500;
+    }
+    .toast-close {
+      background: none;
+      border: none;
+      color: #9CA3AF;
+      cursor: pointer;
+      padding: 0.25rem;
+    }
+    .toast-close:hover {
+      color: #1F2937;
+    }
+    .ripple {
+      position: absolute;
+      inset: 0;
+      background-color: rgba(79, 70, 229, 0.05);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translate(-50%, 10px);
+      }
+      to {
+        opacity: 1;
+        transform: translate(-50%, 0);
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <h1>Welcome</h1>
+      <p>Tap the card below to see a special message</p>
+    </div>
+    
+    <div class="card" id="messageCard">
+      <div class="icon-container">
+        <span class="icon" id="cardIcon">👆</span>
+      </div>
+      <h2 class="card-title">Tap Here</h2>
+      <p class="card-desc">A special message is waiting for you</p>
+      <div class="ripple" id="ripple"></div>
+    </div>
+    
+    <div class="toast" id="messageToast">
+      <div class="toast-icon">💬</div>
+      <div class="toast-message">Hey family coming back on the 9th Of May and have a good day</div>
+      <button class="toast-close" id="toastClose">✕</button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      const card = document.getElementById('messageCard');
+      const toast = document.getElementById('messageToast');
+      const closeBtn = document.getElementById('toastClose');
+      const ripple = document.getElementById('ripple');
+      const cardIcon = document.getElementById('cardIcon');
+      
+      let toastTimeout;
+      
+      card.addEventListener('click', function() {
+        // Animate card
+        ripple.style.opacity = '1';
+        setTimeout(() => { ripple.style.opacity = '0'; }, 300);
+        
+        // Change icon briefly
+        cardIcon.textContent = '👋';
+        setTimeout(() => { cardIcon.textContent = '👆'; }, 1000);
+        
+        // Show toast
+        toast.style.display = 'flex';
+        
+        // Auto-hide after 6 seconds
+        clearTimeout(toastTimeout);
+        toastTimeout = setTimeout(() => {
+          toast.style.display = 'none';
+        }, 6000);
+      });
+      
+      closeBtn.addEventListener('click', function() {
+        toast.style.display = 'none';
+        clearTimeout(toastTimeout);
+      });
+    });
+  </script>
+</body>
+</html>
